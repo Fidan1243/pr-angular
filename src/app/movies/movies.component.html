@@ -1,12 +1,11 @@
 <div *ngIf="movies.length > 0; else no_movies">
-  <h1 class="text-primary">{{ title | uppercase }}</h1>
   <!-- <h1>{{ 100 | currency: '₼' }}</h1> -->
   <div class="alert alert-success">{{ movies.length }} movies found</div>
 
   <!-- <ng-template
     [ngTemplateOutlet]="movieList2"
     [ngTemplateOutletContext]="{ movies: popularMovies }"
-  ></ng-template> -->
+    ></ng-template> -->
 
   <div class="mb-3">
     <input
@@ -21,9 +20,13 @@
   </div>
   <div class="row">
     <div class="col-md-9">
+      <ng-template [ngTemplateOutlet]="moviesHigh"></ng-template>
+      <h1 class="text-primary">{{ title | uppercase }}</h1>
       <ng-template [ngTemplateOutlet]="movieList1"></ng-template>
     </div>
-    <div class="col-md-3"></div>
+    <div class="col-md-3">
+      <ng-template [ngTemplateOutlet]="movieListfav"></ng-template>
+    </div>
   </div>
 </div>
 
@@ -40,18 +43,27 @@
 
       <div class="col-md-9">
         <div class="card-body">
-          <h2 class="card-title">{{ item.title }}</h2>
+          <h2 class="card-title">{{ item.title }} {{ Stars(item.IMDB) }}</h2>
           <p class="card-text">
             {{ item.description }}
           </p>
           <p class="card-text">
             {{ item.datePublished | date: 'short' }}
             <input
+              *ngIf="!item.isFavorite"
               #btn
               type="button"
               (click)="Change(item, btn)"
               class="mx-3 btn"
               value="🖤"
+            />
+            <input
+              *ngIf="item.isFavorite"
+              #btn
+              type="button"
+              (click)="Change(item, btn)"
+              class="mx-3 btn"
+              value="❤️"
             />
           </p>
 
@@ -82,22 +94,29 @@
   </div>
 </ng-template>
 
-<!-- <ng-template #movieList3 let-popularFilms="movies">
-  <div class="card mb-3" *ngFor="let item of popularFilms">
+<ng-template #movieListfav>
+  <h2 class="m-3 text-danger">Favorites</h2>
+  <div class="card m-2" *ngFor="let item of valueFav">
     <div class="row">
-      <div class="col-md-2">
-        <img src="{{ item.imageUrl }}" alt="" class="img-fluid rounded-start" />
-      </div>
-
-      <div class="col-md-10">
+      <img src="{{ item.imageUrl }}" alt="" class="img-fluid" />
+      <div class="col-md-9">
         <div class="card-body">
-          <h2 class="card-title">{{ item.title }}</h2>
-          <p class="card-text">
-            {{ item.description }}
-          </p>
-          <button class="btn btn-sm btn-outline-primary">Details</button>
+          <h5 class="card-title text-danger">{{ item.title }}</h5>
         </div>
       </div>
     </div>
   </div>
-</ng-template> -->
+</ng-template>
+<ng-template #moviesHigh>
+  <div class="row">
+    <h1 class="text-warning">Top Movies</h1>
+    <div class="m-4 col-md-2" *ngFor="let item of popularMovies">
+      <div class="row">
+        <div class="col-md-2">
+          <img src="{{ item.imageUrl }}" alt="" class="best" />
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<!--  -->

@@ -19,6 +19,7 @@ export class MoviesComponent implements OnInit {
   constructor() {
     this.movieRepository = new MovieRepository();
     this.movies = this.movieRepository.getMovies();
+    this.valueFav = this.movieRepository.getMovieFav();
     //this.movies.length=0;
     this.popularMovies = this.movieRepository.getPopularMovies();
   }
@@ -35,11 +36,25 @@ export class MoviesComponent implements OnInit {
   }
   Change(item: any, btn: any) {
     item.isFavorite = !item.isFavorite;
+    this.movieRepository.Update(item);
     if (!item.isFavorite) {
       btn.value = '🖤';
     } else {
       btn.value = '❤️';
     }
+    this.valueFav = this.movieRepository.getMovieFav();
+  }
+  Stars(ii: number): string {
+    var st = '';
+    var forfor = ii / 2;
+    if (ii % 2 == 1) {
+      var r = ii - 1;
+      forfor = r / 2;
+    }
+    for (var i = 0; i < forfor; i++) {
+      st += '⭐';
+    }
+    return st;
   }
   addToList($event: any, item: Movie) {
     if ($event.target.classList.contains('btn-primary')) {

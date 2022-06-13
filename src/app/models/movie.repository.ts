@@ -12,6 +12,7 @@ export class MovieRepository {
         isPopular: false,
         datePublished: new Date(1990, 10, 10),
         isFavorite: false,
+        IMDB: 3,
       },
       {
         id: 2,
@@ -20,7 +21,8 @@ export class MovieRepository {
         imageUrl: 'https://movieposters2.com/images/1849503-b.jpg',
         isPopular: true,
         datePublished: new Date(2020, 10, 10),
-        isFavorite: false,
+        isFavorite: true,
+        IMDB: 9,
       },
       {
         id: 3,
@@ -30,6 +32,7 @@ export class MovieRepository {
         isPopular: false,
         datePublished: new Date(2022, 11, 10),
         isFavorite: false,
+        IMDB: 6,
       },
       {
         id: 4,
@@ -39,6 +42,7 @@ export class MovieRepository {
         isPopular: true,
         datePublished: new Date(1999, 10, 16),
         isFavorite: false,
+        IMDB: 8,
       },
     ];
   }
@@ -47,12 +51,15 @@ export class MovieRepository {
     return this.movies;
   }
   getPopularMovies(): Movie[] {
-    return this.movies.filter((i) => i.isPopular);
+    return this.movies.filter((i) => i.IMDB >= 8);
   }
   getMovieById(id: number): Movie | undefined {
     return this.movies.find((m) => m.id == id);
   }
   Update(mv: Movie) {
     this.movies[mv.id - 1] = mv;
+  }
+  getMovieFav(): Movie[] {
+    return this.movies.filter((i) => i.isFavorite);
   }
 }

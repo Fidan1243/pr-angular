@@ -6,4 +6,5 @@ export interface Movie {
   isPopular: boolean;
   datePublished: Date;
   isFavorite: boolean;
+  IMDB: number;
 }
